@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#17489a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Budget">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Budget Planner</title>
+    <link rel="stylesheet" href="budget.css">
+</head>
+<body>
+    <div id="lock">
+        <h1>Budget Planner</h1>
+        <input id="pinIn" type="password" inputmode="numeric" maxLength="4" placeholder="PIN" style="text-align: center; width:160px">
+        <button id="unl">Unlock</button>
+        <small id="lockE" class="neg"></small>
+    </div>
+    <main>
+        <header>
+            <h1>Budget Planner</h1>
+            <input type="month" id="month" style="flex: 0 0 auto;min-width:0">
+        </header>
+        <div class="card stats">
+            <div class="stat"><span>Income</span><b id="sInc" class="pos">0</b></div>
+            <div class="stat"><span>Spent</span><b id="sExp">0</b></div>
+            <div class="stat"><span>Balance</span><b id="sBal">0</b></div>
+        </div>
+        <div class="card" id="warn" style="display:none"></div>
+        <div class="card"><h2>Add transaction</h2>
+         <div class="row">
+             <select id="type"><option value="exp">Expense</option><option value="inc">Income</option></select>
+             <input id="amt" type="text" placeholder="Amount (KSh)" inputmode="decimal">
+             <select id="cat"></select>
+             <input id="date" type="date">
+             <input id="note" placeholder="Note (optional)">
+             <button id="add">Add</button><div id="err" class="neg" style="flex-basis:100%;font-size:13px"></div>
+         </div>
+       </div>
+ 
+       <div class="card"><h2>Category budgets</h2><div id="cats" class="grid"></div>
+          <label style="display:block;margin:10px 0 0;color:var(--mu);font-size:13px"><input type="checkbox" id="roll" style="min-height:0"> Roll unspent money over to next month</label>
+          <div class="row" style="margin-top:8px">
+             <input id="newCat" placeholder="New category">
+             <input id="newLim" type="number" min="0" placeholder="Monthly limit (KSh)" inputmode="decimal">
+             <button class="g" id="addCat">Add / update</button>
+          </div>
+      </div>
+ 
+      <div class="card">
+          <h2>Import M-Pesa messages</h2>
+          <textarea id="mpIn" placeholder="Paste one or more M-Pesa SMS messages here" style="width:100%;height:90px;background:rgba(255,255,255,.12);color:var(--tx);border:1px solid rgba(255,255,255,.28);border-radius:10px"></textarea>
+          <div class="row" style="margin-top:8px">
+              <button id="mpGo">Import</button>
+          </div>
+          <small id="mpMsg" style="color:var(--mu)">Reads the amount, date and who you paid, and picks a category. Messages already imported are skipped.</small>
+      </div>
+      <div class="card">
+          <h2>Ask your budget</h2>
+          <div class="row" id="askB">
+              <button class="g" data-ask="over">Why am I overspending?</button>
+              <button class="g" data-ask="cut">Where can I cut?</button>
+              <button class="g" data-ask="track">Am I on track?</button>
+              <button class="g" data-ask="big">Biggest expenses</button>
+          </div>
+          <p id="askA" style="white-space:pre-line;margin:10px 0 0"></p>
+      </div>
+      <div class="card">
+          <h2>50/30/20 split</h2>
+          <div id="s532"></div>
+          <small style="color:var(--mu)">Needs = Housing, Food, Transport, Bills. Everything else counts as wants. Savings = income not spent.</small>
+      </div>
+      <div class="card">
+           <h2>Debts &amp; loans</h2>
+           <div id="debtL"></div>
+           <div class="row">
+               <input id="dW" placeholder="Person / lender">
+               <input id="dA" type="text" inputmode="decimal" placeholder="Amount (KSh)">
+               <select id="dD">
+                  <option value="owe">I owe them</option>
+                  <option value="owed">They owe me</option>
+               </select>
+               <button class="g" id="dAdd">Add</button>
+           </div>
+      </div>
+      <div class="card">
+          <h2>Recurring bills</h2>
+          <div id="recL"></div>
+          <div class="row" style="margin-top:8px">
+                <input id="recN" placeholder="Bill name">
+                <input id="recA" type="text" inputmode="decimal" placeholder="Amount (KSh)">
+                <select id="recC"></select>
+                <input id="recD" type="number" min="1" max="28" inputmode="numeric" placeholder="Day (1-28)">
+                <button id="recAdd">Add bill</button>
+          </div>
+          <small style="color:var(--mu)">Posts by itself on its day each month, when you open the app.</small>
+      </div>
+      <div class="card">
+          <h2>Savings goals</h2>
+          <div id="goalL"></div>
+          <div class="row">
+             <input id="gN" placeholder="Goal (e.g. Laptop)">
+             <input id="gT" type="text" inputmode="decimal" placeholder="Target (KSh)">
+             <button class="g" id="gAdd">Add goal</button>
+          </div>
+      </div>
+      <div class="card">
+           <h2>Charts</h2>
+           <div id="donut"></div>
+           <div id="trend" style="margin-top:12px"></div>
+      </div>
+      <div class="card">
+          <h2>History</h2>
+          <div id="hist"></div>
+      </div>
+      <div class="card">
+          <h2>Transactions</h2>
+          <input id="q" placeholder="Search notes or category" style="width:100%;margin-bottom:6px">
+          <div id="list"></div>
+      </div>
+      <div class="card">
+          <h2>Export &amp; install</h2>
+          <div class="row"><button id="exp">Export CSV</button></div>
+          <div class="row" style="margin-top:8px">
+              <input id="pinNew" type="password" inputmode="numeric" maxlength="4" placeholder="New 4-digit PIN">
+              <button class="g" id="pinSet">Set PIN</button>
+              <button class="g" id="pinOff">Remove PIN</button>
+          </div>
+          <small id="pinMsg" style="color:var(--mu)">A PIN hides the app when opened. It is a privacy screen, not encryption.</small>
+          <textarea id="csvOut" style="display:none;width:100%;height:90px;margin-top:8px;background:rgba(255,255,255,.12);color:var(--tx);border:1px solid rgba(255,255,255,.28);border-radius:10px"></textarea>
+          <small id="err2" style="color:var(--mu)"></small>
+          <p style="color:var(--mu);font-size:13px;margin:10px 0 0"><b>Home screen:</b> iPhone: Share, then Add to Home Screen. Android: menu (⋮), then Add to Home screen.</p>
+      </div>
+      <div class="card">
+          <h2>Appearance</h2>
+          <div class="row">
+              <button class="g" id="mDark">Dark</button>
+              <button class="g" id="mLight">Light</button>
+          </div>
+          <div class="row" id="shades" style="margin-top:8px"></div>
+          <label style="display:block;margin-top:10px;color:var(--mu);font-size:13px">Blur strength 
+              <input type="range" id="blur" min="0" max="40" value="18" style="width:100%;min-height:0;padding:0">
+          </label>
+      </div>
+      <p style="color:var(--mu);font-size:12px;text-align:center" id="status"></p>
+  </main>
+  <nav id="nav">
+      <button data-pg="home">🏠<span>Home</span></button>
+      <button data-pg="plan">📅<span>Plan</span></button>
+      <button data-pg="ins">📊<span>Insights</span></button>
+  </nav>
+  <script src="budget.js" type="module"></script>
+</body>
+</html>
