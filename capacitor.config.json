@@ -1,0 +1,8 @@
+{
+  "appId": "com.wancej12.budgetplanner",
+  "appName": "Budget Planner",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false
+  }
+}

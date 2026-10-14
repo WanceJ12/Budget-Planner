@@ -1,0 +1,16 @@
+{
+  "name": "budget-planner-android",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:web": "node scripts/copy-web-assets.cjs",
+    "cap:sync": "npm run build:web && cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "7.6.9",
+    "@capacitor/core": "7.6.9"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "7.6.9"
+  }
+}

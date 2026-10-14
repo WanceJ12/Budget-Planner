@@ -1,8 +1,8 @@
 # Budget Planner
 
-Budget Planner is a small, mobile-friendly personal budgeting app. It helps you record income and expenses, set monthly category budgets, import supported M-Pesa confirmation messages, and review your spending over time.
+Budget Planner is a personal budgeting app for recording income and expenses, setting monthly category budgets, importing supported M-Pesa confirmation messages, and reviewing spending over time. The Android version is packaged as an installable APK and includes the app files on the device, so it works offline after installation.
 
-The app is built with plain HTML, CSS, and JavaScript. It does not require a build step or a package installation.
+The interface is built with HTML, CSS, and JavaScript and packaged for Android using Capacitor.
 
 ## Features
 
@@ -21,22 +21,29 @@ The app is built with plain HTML, CSS, and JavaScript. It does not require a bui
 - **Optional PIN screen** — hide the app behind a four-digit PIN screen.
 - **Responsive layout** — use the app on desktop or mobile, with Home, Plan, and Insights navigation.
 
-## Getting started
+## Install on Android
 
-### Run locally
+1. Open the repository's [Actions page](https://github.com/WanceJ12/Budget-Planner/actions).
+2. Open the latest successful **Build Budget Planner for Android** run on the `main` branch.
+3. Under **Artifacts**, download `budget-planner-android`.
+4. Extract the downloaded ZIP to get `app-debug.apk`, then open that APK on the Android device and follow the install prompts.
 
-1. Download or copy `index.html`, `budget.css`, and `budget.js` into the same folder.
-2. Open `index.html` in a modern browser.
-3. Use the month selector at the top to choose the month you want to review.
+Android may ask you to allow installation from the browser or file manager used to open the APK. Only install APKs from a trusted source. The debug APK is unsigned for Play Store distribution, but can be installed directly on Android.
 
-No server, build command, or dependency installation is needed for local use. A browser that supports JavaScript modules and `localStorage` is recommended.
+The app runs as an installed Android app and its interface does not require a website or an internet connection. The APK is built in GitHub Actions when changes are pushed to `main`; workflow artifacts are available for 30 days. Tagged releases (`v*`) also include the APK as a release download.
 
-### Add to a mobile home screen
+## Build the Android app
 
-Open the app in your mobile browser and use its **Add to Home Screen** option:
+Requirements: Node.js 22, Java 21, Android Studio/Android SDK, and Android build tools.
 
-- **iPhone/iPad:** use Share, then **Add to Home Screen**.
-- **Android:** open the browser menu, then choose **Add to Home screen** (the exact wording varies by browser).
+```sh
+npm ci
+npm run cap:sync
+cd android
+./gradlew assembleDebug
+```
+
+The Android project is included in the repository. The generated APK is `android/app/build/outputs/apk/debug/app-debug.apk`. On Windows, run `.\gradlew.bat assembleDebug` from the `android` directory. To generate a fresh Android project instead, remove the existing `android` directory and run `npx cap add android` after `npm ci`.
 
 ## Using the app
 
@@ -129,7 +136,10 @@ The Appearance section provides light/dark modes, color palettes, and a blur sli
 | `index.html` | App structure, form controls, and page sections. |
 | `budget.css` | Layout, responsive styles, themes, and visual presentation. |
 | `budget.js` | Transaction logic, rendering, import parsing, calculations, and persistence. |
-| `README.md` | Usage and project documentation. |
+| `capacitor.config.json` | Android package identity and bundled web asset settings. |
+| `scripts/copy-web-assets.cjs` | Copies the app files into the Android package before syncing. |
+| `.github/workflows/android.yml` | Builds downloadable APKs in GitHub Actions. |
+| `README.md` | Installation, use, and project documentation. |
 
 ## Troubleshooting
 
